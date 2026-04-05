@@ -58,3 +58,57 @@ def get_chat_history(session_id):
         history.append(AIMessage(content = gpt_response))
     
     return history
+
+
+def create_document_store():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        create table if not exists document_store(
+            id integer primary key autoincrement,
+            filename text not null,
+            created_at timestamp default current_timestamp
+    )""")
+
+    conn.commit()
+    conn.close()
+
+
+def insert_document(filename):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        insert into document_store(filename)
+        values(?)
+""", (filename,)
+)
+    doc_id = cursor.lastrowid()
+    conn.commit()
+    conn.close()
+
+    return doc_id
+
+
+def get_all_documents():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, filename
+        FROM document_store
+        ORDER BY id ASC
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+
+def delete_document_record(file_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM document_store WHERE id = ?", (file_id,))
+    conn.commit()
+    conn.close()
+
