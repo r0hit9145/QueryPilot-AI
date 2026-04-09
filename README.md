@@ -1,4 +1,4 @@
-# rag-pilot-multi-user-chatbot
+# QueryPilot AI -multi-user chatbot
 Production-ready Retrieval-Augmented Generation (RAG) application with semantic search, vector database, and LLM-powered question answering.
 
 🚀 RAGPilot
