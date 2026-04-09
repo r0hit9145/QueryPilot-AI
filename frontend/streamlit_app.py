@@ -67,7 +67,6 @@ with st.sidebar:
         if res.status_code == 200:
             data = res.json()
             docs = data if isinstance(data, list) else data.get("documents", [])
-            print(docs, "checking>>>>>>>>>>>>>>")
         else:
             st.warning("Could not load document list.")
     except Exception as e:
